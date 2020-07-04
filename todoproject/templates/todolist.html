@@ -1,39 +1,29 @@
 <h1>My To Do List</h1>
 
-<head>
-    <title>Demo</title>
+{% if messages %}
+{% for message in messages %}
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
     <script type="text/javascript">
       $(function(){
     setTimeout(function(){
         $("#alertMessage").hide();
-        }, 10000);
+        });
       });
     </script>
-        <script type="text/javascript">
-      $(function(){
-       $('#alertMessage').delay(2000).fadeOut();
-      });
-    </script>
-  </head>
-
-{% if messages %}
-{% for message in messages %}
 
 
-<div id="alertMessage" class="alert alert-{{ message.tags }} alert-dismissible text-center" role="alert">
-     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span>
-     </button>
-     <strong>{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error{% else %}{{ message.tags|title }}{% endif %}!
-     </strong> {{ message }}
- </div>
+<div id="alertMessage" class="toast" role="alert" aria-live="polite" aria-atomic="true" data-animation="5000" data-delay="2000" style="display:none">
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+  <div role="alert" aria-live="assertive" aria-atomic="true">{{ message }}</div>
+</div>
+
  {% endfor %}
  {% endif %}
 
 <form action="/addTodoItem/" method = "post">{% csrf_token %}
-    <input type="text" name="content_name">
-    <input type="text" name="content_city">
-    <input type="text" name="content_age">
+    <input type="text" name="content_name" placeholder="Your name">
+    <input type="text" name="content_city" placeholder="Your city">
+    <input type="text" name="content_age" placeholder="Your age">
     <input type="submit" value="Add Todo Item">
 </form>
 
@@ -47,4 +37,12 @@
     </li>
     {% endfor %}
 </ul>
+
+
+<script>
+$(alertMessage).ready(function() {
+  $( "div.toast" ).delay( 10000 ).fadeIn( 400 );
+});
+</script>
+
 
